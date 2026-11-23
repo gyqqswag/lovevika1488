@@ -1,0 +1,138 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:#07050a;color:#fff;font-family:'Nunito',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+
+/* ---------- Фон ---------- */
+.bg{position:fixed;inset:0;transition:opacity 3s ease}
+.bg-dark{background:radial-gradient(ellipse at 50% 38%,#2a0f2b 0%,#120815 48%,#050308 100%);overflow:hidden}
+.bg-dark::before,.bg-dark::after{content:"";position:absolute;width:62vmax;height:62vmax;border-radius:50%;animation:orb 18s ease-in-out infinite alternate}
+.bg-dark::before{left:-22vmax;top:-22vmax;background:radial-gradient(circle,rgba(255,80,150,.14),transparent 62%)}
+.bg-dark::after{right:-24vmax;bottom:-24vmax;background:radial-gradient(circle,rgba(150,90,255,.12),transparent 62%);animation-delay:-9s}
+@keyframes orb{to{transform:translate(8vmax,6vmax)}}
+.bg-pink{background:linear-gradient(160deg,#fff1f6 0%,#ffdce9 45%,#f8d4f0 100%);opacity:0}
+body.pink .bg-pink{opacity:1}
+body.pink .bg-dark{opacity:0}
+
+#stars{position:fixed;inset:0;pointer-events:none;transition:opacity 2s ease}
+body.pink #stars{opacity:0}
+.star{position:absolute;border-radius:50%;background:#ffd6e8;animation:twinkle var(--t) ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.1}to{opacity:.8}}
+
+/* ---------- Карточка ---------- */
+.intro{position:fixed;inset:0;display:grid;place-items:center;z-index:4;pointer-events:none}
+.card{position:relative;width:min(82vw,340px);aspect-ratio:4/5;border-radius:26px;pointer-events:auto;
+  box-shadow:0 0 60px rgba(255,90,150,.28),0 0 140px rgba(255,90,150,.12);
+  animation:cardIn 1.6s cubic-bezier(.2,.7,.2,1) both;transition:box-shadow .6s ease}
+@keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.94)}to{opacity:1;transform:none}}
+.card.shake{animation:shake 1.5s linear,pulse 1.5s ease-in}
+@keyframes shake{0%,100%{transform:none}15%{transform:translate(-1px,0) rotate(-.3deg)}30%{transform:translate(2px,-1px) rotate(.5deg)}
+ 45%{transform:translate(-3px,1px) rotate(-.8deg)}60%{transform:translate(3px,-2px) rotate(.9deg)}75%{transform:translate(-4px,2px) rotate(-1.1deg)}90%{transform:translate(4px,-2px) rotate(1.2deg)}}
+@keyframes pulse{to{box-shadow:0 0 90px rgba(255,90,150,.55),0 0 180px rgba(255,90,150,.25)}}
+.card.split{box-shadow:none}
+
+.half{position:absolute;inset:0;border-radius:26px;background:linear-gradient(150deg,#2d1633,#150a1c);
+  border:1px solid rgba(255,140,190,.4);transition:transform 1.6s cubic-bezier(.2,.7,.2,1),opacity 1.3s ease .25s}
+.half.l{clip-path:polygon(0 0,53% 0,47% 12%,55% 26%,46% 41%,54% 55%,47% 70%,53% 84%,48% 100%,0 100%)}
+.half.r{clip-path:polygon(53% 0,100% 0,100% 100%,48% 100%,53% 84%,47% 70%,54% 55%,46% 41%,55% 26%,47% 12%)}
+.card.split .l{transform:translate(-125%,-16%) rotate(-28deg);opacity:0}
+.card.split .r{transform:translate(125%,22%) rotate(30deg);opacity:0}
+.face{height:100%;display:flex;flex-direction:column;align-items:center;padding-top:17%;text-align:center}
+.spark{color:#ff7eb3;font-size:1.1rem;letter-spacing:.5em;margin-bottom:.7rem;text-shadow:0 0 12px #ff4f8b}
+h1{font:400 clamp(1.9rem,8.4vw,2.5rem)/1.3 'Pacifico',cursive;color:#ffd9e8;text-shadow:0 0 18px rgba(255,100,160,.7)}
+
+.core{position:absolute;left:50%;top:62%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.6);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,150,195,.9),rgba(255,90,150,0) 65%);opacity:0;transition:opacity 1s ease,transform 1.6s ease}
+.card.crack .core{opacity:.8;transform:translate(-50%,-50%) scale(1)}
+.card.split .core{opacity:0;transform:translate(-50%,-50%) scale(3.2)}
+
+.crack{position:absolute;left:50%;top:62%;width:38%;transform:translate(-50%,-50%);overflow:visible;opacity:0;z-index:2;pointer-events:none;
+  filter:drop-shadow(0 0 5px #ff7eb3) drop-shadow(0 0 14px #ff4f8b)}
+.crack path{fill:rgba(255,120,170,0);stroke:#ffe0ee;stroke-width:2.4;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.card.crack .crack{opacity:1}
+.card.crack .crack path{animation:draw 1s ease-in-out forwards,fillGlow .6s ease .8s forwards}
+.card.split .crack{opacity:0;transition:opacity .4s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fillGlow{to{fill:rgba(255,120,170,.4)}}
+
+#openBtn{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);z-index:3;padding:.8rem 2.3rem;border:0;border-radius:999px;
+  font:800 1.05rem 'Nunito',sans-serif;letter-spacing:.03em;color:#fff;cursor:pointer;
+  background:linear-gradient(135deg,#ff7eb3,#ff4f8b);box-shadow:0 0 22px rgba(255,90,150,.55);
+  animation:btnGlow 2.4s ease-in-out infinite alternate;transition:transform .25s,opacity .5s}
+#openBtn:hover{transform:translateX(-50%) scale(1.06)}
+#openBtn:focus-visible,#music:focus-visible{outline:2px solid #fff;outline-offset:3px}
+#openBtn.pressed{opacity:0;transform:translateX(-50%) scale(.8);pointer-events:none}
+@keyframes btnGlow{to{box-shadow:0 0 38px rgba(255,90,150,.9)}}
+
+/* ---------- Объёмное сердце ---------- */
+.heart3d{--hs:min(52vw,250px);position:fixed;left:50%;top:50%;width:var(--hs);aspect-ratio:100/90;perspective:900px;
+  opacity:0;pointer-events:none;z-index:5;transform:translate(-50%,-50%) scale(.15)}
+.heart3d::before{content:"";position:absolute;inset:-70%;border-radius:50%;background:radial-gradient(circle,rgba(255,110,170,.8),rgba(255,110,170,0) 62%)}
+.h3{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(-12deg) rotateY(-60deg)}
+.h3 svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.heart3d.go{animation:heartPop 4.6s ease-in-out forwards}
+.heart3d.go .h3{animation:spin 4.6s cubic-bezier(.45,.05,.4,1) forwards}
+@keyframes heartPop{
+ 0%{opacity:0;transform:translate(-50%,-50%) scale(.15);filter:blur(0)}
+ 12%{opacity:1;transform:translate(-50%,-50%) scale(.9)}
+ 55%{opacity:1;transform:translate(-50%,-50%) scale(1.35)}
+ 78%{opacity:1;filter:blur(0)}
+ 100%{opacity:0;transform:translate(-50%,-50%) scale(1.9);filter:blur(16px)}}
+@keyframes spin{to{transform:rotateX(-12deg) rotateY(300deg)}}
+
+/* ---------- Дождь из сердечек ---------- */
+#rain{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:2;opacity:0;transition:opacity 2s ease 1s}
+body.pink #rain{opacity:1}
+.rh{position:absolute;top:0;animation:fall var(--d) linear var(--dl) infinite;will-change:transform}
+.rh i{display:block;font-style:normal;font-size:var(--z);color:var(--c);opacity:var(--o);text-shadow:0 0 8px rgba(255,255,255,.7);
+  animation:sway var(--s) ease-in-out infinite alternate}
+@keyframes fall{from{transform:translateY(-14vh)}to{transform:translateY(114vh)}}
+@keyframes sway{from{transform:translateX(calc(var(--a)*-1)) rotate(calc(var(--r)*-1))}to{transform:translateX(var(--a)) rotate(var(--r))}}
+
+/* ---------- Финальная сцена ---------- */
+.stage-wrap{position:fixed;inset:0;display:grid;place-items:center;z-index:3;pointer-events:none}
+.stage{position:relative;height:min(88vh,128vw);height:min(88dvh,128vw);aspect-ratio:5/6;opacity:0;transform:scale(.55);
+  transition:opacity 2.6s ease,transform 4s cubic-bezier(.22,.61,.36,1)}
+.stage.show{opacity:1;transform:scale(1)}
+.scene{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 12px 24px rgba(190,60,110,.18))}
+
+#boyBody,#girlBody{transform-box:fill-box;transform-origin:50% 100%}
+#boyHead,#girlHead,.eye,.mouth,.cloud{transform-box:fill-box;transform-origin:50% 50%}
+.cloud{animation:drift 14s ease-in-out infinite alternate}
+.cloud.c2{animation-duration:19s;animation-direction:alternate-reverse}
+@keyframes drift{to{transform:translateX(30px)}}
+
+.stage.kiss #boyBody{animation:boyLean 2.2s ease-in-out forwards}
+.stage.kiss #girlBody{animation:girlLean 2.2s ease-in-out .2s forwards}
+.stage.kiss #boyHead{animation:boyHead 2.2s ease-in-out forwards}
+.stage.kiss #girlHead{animation:girlHead 2.2s ease-in-out .2s forwards}
+.stage.kiss .eye{animation:closeEye .5s ease 1.6s forwards}
+.stage.kiss .mouth{animation:fadeOut .3s ease 1.8s forwards}
+@keyframes boyLean{to{transform:rotate(5deg)}}
+@keyframes girlLean{to{transform:rotate(-3deg)}}
+@keyframes boyHead{to{transform:translate(30px,34px) rotate(13deg)}}
+@keyframes girlHead{to{transform:translate(-18px,-24px) rotate(-10deg)}}
+@keyframes closeEye{to{transform:scaleY(.12)}}
+@keyframes fadeOut{to{opacity:0}}
+
+/* Пиксельные сердечки в стиле Minecraft */
+.hearts{position:absolute;inset:0;pointer-events:none}
+.px{position:absolute;opacity:0;animation:rise 2.4s ease-out forwards;filter:drop-shadow(0 0 4px rgba(255,80,130,.5))}
+.px svg{display:block;width:100%;height:auto}
+@keyframes rise{
+ 0%{opacity:0;transform:translateY(0) scale(.5)}
+ 15%{opacity:1;transform:translateY(-2vmin) scale(1)}
+ 70%{opacity:1}
+ 100%{opacity:0;transform:translateY(-12vmin) scale(1)}}
+
+/* ---------- Кнопка музыки ---------- */
+#music{position:fixed;top:max(14px,env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right));z-index:10;width:42px;height:42px;
+  display:grid;place-items:center;border-radius:50%;cursor:pointer;color:#ffd0e2;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;transition:opacity .8s ease,color 3s ease,background 3s ease,border-color 3s ease}
+#music.visible{opacity:.75;pointer-events:auto}
+#music.visible:hover{opacity:1}
+body.pink #music{color:#d6477c;background:rgba(255,255,255,.6);border-color:rgba(214,71,124,.25)}
+#music .slash{opacity:0;transition:opacity .3s}
+#music.muted .slash{opacity:1}
+
+@media (prefers-reduced-motion:reduce){.star,.cloud,.bg-dark::before,.bg-dark::after{animation:none}}
