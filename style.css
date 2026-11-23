@@ -89,8 +89,8 @@ body.pink #rain{opacity:1}
 @keyframes sway{from{transform:translateX(calc(var(--a)*-1)) rotate(calc(var(--r)*-1))}to{transform:translateX(var(--a)) rotate(var(--r))}}
 
 /* ---------- Финальная сцена ---------- */
-.stage-wrap{position:fixed;inset:0;display:grid;place-items:center;z-index:3;pointer-events:none}
-.stage{position:relative;height:min(88vh,128vw);height:min(88dvh,128vw);aspect-ratio:5/6;opacity:0;transform:scale(.55);
+.stage-wrap{position:fixed;inset:0;padding-bottom:7vh;display:grid;place-items:center;z-index:3;pointer-events:none}
+.stage{position:relative;height:min(80vh,120vw);height:min(80dvh,120vw);aspect-ratio:5/6;opacity:0;transform:scale(.55);
   transition:opacity 2.6s ease,transform 4s cubic-bezier(.22,.61,.36,1)}
 .stage.show{opacity:1;transform:scale(1)}
 .scene{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 12px 24px rgba(190,60,110,.18))}
@@ -136,3 +136,23 @@ body.pink #music{color:#d6477c;background:rgba(255,255,255,.6);border-color:rgba
 #music.muted .slash{opacity:1}
 
 @media (prefers-reduced-motion:reduce){.star,.cloud,.bg-dark::before,.bg-dark::after{animation:none}}
+
+/* ---------- Закат и город ---------- */
+#sunset{position:fixed;inset:0;z-index:1;overflow:hidden;pointer-events:none;opacity:0;transform:scale(1.25);transform-origin:50% 100%;
+  background:linear-gradient(180deg,#ffd4ea 0%,#ffb8d6 28%,#ff9fbd 52%,#ffbf9f 76%,#ffdcb6 100%);
+  transition:opacity 4s ease,transform 5s cubic-bezier(.22,.61,.36,1)}
+#sunset.show{opacity:1;transform:none}
+#sunset::before,#sunset::after{content:"";position:absolute;border-radius:50%;filter:blur(14px);background:rgba(255,255,255,.4)}
+#sunset::before{left:8%;top:16%;width:38vw;height:5vh}
+#sunset::after{right:6%;top:30%;width:30vw;height:4vh;background:rgba(255,230,240,.45)}
+.sun{position:absolute;left:50%;top:48%;width:min(60vmin,480px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,#fffbe8 0 34%,#ffe3bb 36%,rgba(255,176,196,.6) 54%,rgba(255,176,196,0) 72%)}
+#city{position:absolute;left:0;bottom:0;width:100%;height:48vh;display:block}
+
+/* ---------- Текст песни ---------- */
+@font-face{font-family:'Minecraft';src:url('Minecraft.woff2') format('woff2'),url('Minecraft.ttf') format('truetype');font-display:swap}
+#lyrics{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(92vw,680px);
+  text-align:center;z-index:9;pointer-events:none;opacity:0;transition:opacity .22s ease;
+  font-family:'Minecraft','Pixelify Sans',monospace;font-size:clamp(14px,3.8vw,22px);line-height:1.45;color:#fff;text-shadow:2px 2px 0 #3b3b3b}
+#lyrics.on{opacity:1}
+#lyrics span{display:inline-block;padding:.3em .8em;background:rgba(40,10,35,.4)}
